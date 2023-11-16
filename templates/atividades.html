@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Categorias
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block conteudo %}
+
+  <h2>Cadastro de Atividades</h2>
+ 
+  <form id="atividadeForm" action="/atividades/salvar" method="post"> <!--importante-->
+      <div class="form-group">
+            <label for="nome">Nome da Categoria:</label>
+            <input type="text" 
+                    class="form-control" 
+                    id="nome" 
+                    placeholder="Ex: comprar o produto x" 
+                    name="nome"                            
+                    value="{{atividade[0][1]}}"
+                    required>
+            <label for="status">Nome da Categoria:</label>
+            <label for="tipo">Tipo:</label>
+                <select class="form-control tipo" id="tipo">
+                    <option value="começar">começar</option>
+                    <option value="andamento">andamento</option>
+                    <option value="finalizado">finalizado</option>
+                </select>
+      </div>
+
+      <input type="hidden" name="id" value="{{atividade[0][0]}}">
+
+      <button type="submit" class="btn btn-primary">
+        {% if dados %}
+            Adicionar 
+        {% else %}
+            Atualizar 
+        {% endif %}
+        Atividades
+      </button>
+  </form>
+  
+  {% if dados %}
+  <br><br>
+  <h2>Lista de Atividades</h2>
+    <div class="table-responsive">
+        <table id="tabelaAtividades" class="table table-striped table-sm table-bordered bg-white">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome da Categoria</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for atividade in dados %}
+            <tr>
+                <td>{{atividade[0]}}</td>
+                <td>{{atividade[1]}}</td>
+                <td>
+
+                    <a class="btn btn-warning btn-xs"
+                        href="/categoria/edit/{{atividade[0]}}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    
+                    <a class="btn btn-danger btn-xs"
+                        href="/categoria/delete/{{atividade[0]}}">
+                        <i class="far fa-times-circle"></i>
+                    </a>
+            
+                </td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block js %}
+    <script type='text/javascript'>
+    $(document).ready(function() {
+        $('#tabelaAtividades').DataTable();
+    });
+    </script>
+{% endblock %}
