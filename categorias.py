@@ -4,13 +4,21 @@ import database as db;
 
 categorias_blueprint = Blueprint('categorias', __name__)
 
-
 @categorias_blueprint.route("/categorias")
 def categorias():
   bd = db.SQLiteConnection('estoque.db')
   bd.connect()
-  categorias = bd.execute_query("select * from categorias;")
-  print(categorias)
+  categorias = bd.execute_query("select id, nome from categorias;")
+  dictList=[]
+  for categoria in categorias:
+    categoria_dict = {
+        'id': categoria[0],
+        'nome': categoria[1],
+        # Adicione outras colunas conforme necessário
+    }
+    dictList.append(categoria_dict)
+
+    print("categoria: ",(0,0))
   return render_template("categorias.html", dados=categorias, categoria=(0,0))
 
 @categorias_blueprint.route("/categoria/save", methods=["POST"])
